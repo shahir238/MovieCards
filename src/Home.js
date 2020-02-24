@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Card, CardHeader,Col,Row,Badge, Button} from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm } from '@fortawesome/free-solid-svg-icons';
+import { faFilm,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import a from './images/a.jpg'; 
 import b from './images/b.jpg';
 import c from './images/c.jpg';
@@ -31,11 +31,11 @@ const Home =()=>{
    const muted3 ="Kingdom";
    const muted4 ="The big friend";
    const muted5 ="Secret brides maids";
-   const star1 ="faStarHalfAlt";
-   const star2 ="faStarHalfAlt";
-   const star3 ="faStar";
-   const star4 ="faStarHalfAlt";
-   const star5 ="faStarHalfAlt";
+   const star1 =faStarHalfAlt;
+   const star2 =faStarHalfAlt;
+   const star3 =faStar;
+   const star4 =faStarHalfAlt;
+   const star5 =faStarHalfAlt;
    const pills1 ="4.5";
    const pills2 ="4.5";
    const pills3 ="5.0";
@@ -55,7 +55,7 @@ const logOut=()=>{
        
         <div className="App">
           
-         <Card className="header"><CardHeader style={{backgroundColor:'#313742',height:'100px'}}><nav className="nav"><div><FontAwesomeIcon className="fa-2x" style={{paddingRight:'15px',height:'60px',width:'60px'  }} icon={faFilm}></FontAwesomeIcon></div><div><h3 style={{paddingTop:'12px'}}>My-Movies</h3></div></nav><Button onClick={logOut} style={{float:'right',marginTop:'-60px'}} >logOut</Button></CardHeader></Card>
+         <Card className="header"><CardHeader style={{backgroundColor:'#313742',minheight:'100px',maxHeight:'150px'}}><nav className="nav"><div className="movieIcon"><FontAwesomeIcon className="fa-2x" style={{paddingRight:'15px',height:'60px',width:'60px',marginTop:'-4px'  }} icon={faFilm}></FontAwesomeIcon></div><div><h3 style={{paddingTop:'12px'}}>My-Movies</h3></div></nav><Button onClick={logOut} style={{display:'block',position:'relative',float:'right',marginTop:'-60px',marginLeft:'30px'}} >Logout</Button></CardHeader></Card>
           <div className="div"><Row>
            
             <Apps title={title1} muted={muted1} p={p1} img={a} star={star1} pills={pills1} link={"/Joker"} />

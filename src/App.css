@@ -1,38 +1,129 @@
-.App {
-  text-align: center;
+.nav{
+    
+    background-color: #313742;
+    min-width: 767;
+    max-width: 100%;
+    min-height: 80px;
+    max-height: 80px;
+    color: whitesmoke;
+    display: block;
+    margin: auto;
+    margin-left: 40%;
+    padding-top: 12px;
+    
 }
+.h{
+    margin: 0px opx 5px 0px;
+}
+.movie-card{
+    margin-left: 20px;
+    margin-top: 10px;
+    max-width: 300px;
+    padding-right: 28px;
+    min-width: 300px;
+    margin-left: 5px;
+    position: obsolute;
+    
+    
+}
+.img{
+    width: 300px;
+    height: 160px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.div{
+    padding-top: 38px;
+    width: 90%;
+    padding-left: 8px;
+    margin-top: 38px;;
+}
+.p{
+    text-align: justify;
+    
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
+.inner{
+    width: 300px;
+    height: 268px;
+    padding: 30px 10px 220px 10px;
+}
+.card{
+    width: 300px;
+    height: 53px;
+    
+}
+.header{
+    width: 100%;
+}
+.star{
+    padding: 13px;
+}.badge{
+    float: right;
+    width: 44px;
+    height: 25px;
+    font-size: larger;
+    
+}
+.p2{
+    width:1200px; 
+    font-size: large;
+    color: darkblue;
+    line-height:40px;
+    text-align: justify;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-height: 300px;
+}
+.text-muted{
+    padding-left: 10px;
+}
+.btn{
+    float: right;
+    margin-top: -70px;
+    margin-right: 20px;
+    
+}
+.c{
+    padding: 0px;
+    margin: 0px;
+    
+}
+/* Detail movie footer styling */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navLink{
+    color: white;
+    font-size: large;
 }
+.icon{
+    
+    color: white;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
+.fa-2x{
+    margin-left: 20px;
+    font-size: large;
+    margin-top: 60px;    
+}
+.copyRight{
+    color: white;
+    margin: 0px;
+}
+.mainCard{
+    /* margin-left: 5px; */
+    width: 300px;
+    position: absolute;
+    padding-left: 10px;
+    
+}
+.image{
+    width: 300px;
+}
+/* media Query on cards */
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+@media only screen and (max-width: 676px) {
+    
+    .mainCard {
+        margin-left: 20%;
+    }
+  } 
