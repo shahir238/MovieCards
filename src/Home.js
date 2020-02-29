@@ -1,73 +1,241 @@
-import React from 'react';
-import './App.css';
-import { Card, CardHeader,Col,Row,Badge, Button} from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm,faStar,faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
-import a from './images/a.jpg'; 
-import b from './images/b.jpg';
-import c from './images/c.jpg';
-import d from './images/d.jpg';
-import e from './images/e.jpg';
-//import {Link} from 'react-router-dom';
-import Apps from './Apps'
-//import Gaurdian from './Gaurdian'
-import firebase from './fire';
+import React from "react";
+import { db } from "./fire";
+import { useState } from "react";
+import "./App.css";
+import {
+  Card,
+  CardHeader,
+  Label,
+  Row,
+  Form,
+  FormGroup,
+  Input,
+  Button,
+  Popover,
+  PopoverHeader,
+  PopoverBody
+} from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFilm
+} from "@fortawesome/free-solid-svg-icons";
 
+import Apps from "./Apps";
+import firebase from "./fire";
+import UserCard from "./UserCard";
+import ImageUpload from "./ImageUpload";
+import Object from './Object'
 
+const Home = () => {
+  ;
 
-const Home =()=>{
-   const p1 ="The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout.";
-   const p2 ="The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s."; 
-   const p3 ="The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.";
-   const p4 ="Nor is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain.";
-   const p5 =" Adams reasoned, “[Do you really] think graphic arts supply houses were hiring classics scholars in the 1960s?";
-   const title1 ="Joker";
-   const title2 ="World War Z";
-   const title3 ="In The Name Of King";
-   const title4 ="The BFG";
-   const title5 ="Secret Brides Maids";
-   const muted1 ="Ahaa! be smile";
-   const muted2 ="third world war";
-   const muted3 ="Kingdom";
-   const muted4 ="The big friend";
-   const muted5 ="Secret brides maids";
-   const star1 =faStarHalfAlt;
-   const star2 =faStarHalfAlt;
-   const star3 =faStar;
-   const star4 =faStarHalfAlt;
-   const star5 =faStarHalfAlt;
-   const pills1 ="4.5";
-   const pills2 ="4.5";
-   const pills3 ="5.0";
-   const pills4 ="4.2";
-   const pills5 ="3.9"; 
-  // const link1 ="/Gaurdian";
-//    const link2 ="/world";
-//    const link3 ="/king";
-//    const link4 ="/bfg";
-//    const link5 ="/brides";
-const logOut=()=>{
-  firebase.auth().signOut();
-}
+  const logOut = () => {
+    firebase.auth().signOut();
+  };
 
-
-   return(
-       
-        <div className="App">
-          
-         <Card className="header"><CardHeader style={{backgroundColor:'#313742',minheight:'100px',maxHeight:'150px'}}><nav className="nav"><div className="movieIcon"><FontAwesomeIcon className="fa-2x" style={{paddingRight:'15px',height:'60px',width:'60px',marginTop:'-4px'  }} icon={faFilm}></FontAwesomeIcon></div><div><h3 style={{paddingTop:'12px'}}>My-Movies</h3></div></nav><Button onClick={logOut} style={{display:'block',position:'relative',float:'right',marginTop:'-60px',marginLeft:'30px'}} >Logout</Button></CardHeader></Card>
-          <div className="div"><Row>
-           
-            <Apps title={title1} muted={muted1} p={p1} img={a} star={star1} pills={pills1} link={"/Joker"} />
-            <Apps title={title2} muted={muted2} p={p2} img={b} star={star2} pills={pills2} link={"/World"} />
-            <Apps title={title3} muted={muted3} p={p3} img={c} star={star3} pills={pills3} link={"/King"} />
-            <Apps title={title4} muted={muted4} p={p4} img={d} star={star4} pills={pills4} link={"/BFG"} />
-            <Apps title={title5} muted={muted5} p={p5} img={e} star={star5} pills={pills5} link={"/Brides"} />
-            </Row>     
+  return (
+    <div className="App">
+      <Card className="header">
+        <CardHeader
+          style={{
+            backgroundColor: "#313742",
+            minheight: "100px",
+            maxHeight: "150px"
+          }}
+        >
+          <nav className="nav">
+            <div className="movieIcon">
+              <FontAwesomeIcon
+                className="fa-2x"
+                style={{
+                  paddingRight: "15px",
+                  height: "60px",
+                  width: "60px",
+                  marginTop: "4px"
+                }}
+                icon={faFilm}
+              ></FontAwesomeIcon>
+            </div>
+            <div>
+              <h3 style={{ paddingTop: "20px" }}>My-Movies</h3>
+            </div>
+          </nav>{" "}
+          <InputForm />
+          <div className="headBtn">
+            <Button
+              onClick={logOut}
+              style={{
+                display: "block",
+                position: "relative",
+                float: "right",
+                marginTop: "-50px",
+                marginLeft: "30px"
+              }}
+            >
+              Logout
+            </Button>
           </div>
-          </div>
+        </CardHeader>
+      </Card>
+      <div className="div">
+      <Row>
+        {Object.map(obj=>
           
             
-    );
-}
+            <Apps key={obj.id}
+              title={obj.title}
+              muted={obj.muted}
+              p={obj.p}
+              img={obj.img}
+              star={obj.star}
+              pills={obj.pills}
+              link={obj.link}
+            />
+           
+
+          )}
+           
+          <UserCard />
+          </Row>
+       
+
+      </div>
+    </div>
+  );
+};
 export default Home;
+
+// Pop up form
+
+const InputForm = props => {
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const toggle = () => setPopoverOpen(!popoverOpen);
+  const [movies, setMovies] = useState({
+    title: "",
+    subTitle: "",
+    description: "",
+    link: "",
+    url: ""
+  });
+  const image = url => {
+    setMovies({
+      title: movies.title,
+      subTitle: movies.subTitle,
+      description: movies.description,
+      link: movies.link,
+      url: url
+    });
+  };
+
+  const submit = e => {
+    e.preventDefault();
+    db.collection("movies").add(movies);
+    setMovies({
+      title: "",
+      subTitle: "",
+      description: "",
+      link: "",
+      url: ""
+    });
+    console.log("movies", movies);
+  };
+
+  return (
+    <div style={{ float: "left", marginTop: "15px" }}>
+      <Button id="Popover1" type="button">
+        Add New Movies
+      </Button>
+      <Popover
+        placement="bottom"
+        isOpen={popoverOpen}
+        target="Popover1"
+        toggle={toggle}
+      >
+        <PopoverHeader>New Movies</PopoverHeader>
+        <PopoverBody>
+          <Form onSubmit={submit}>
+            <FormGroup>
+              <Label for="title">Title</Label>
+              <Input
+                type="text"
+                value={movies.title}
+                onChange={e =>
+                  setMovies({
+                    title: e.target.value,
+                    subTitle: movies.subTitle,
+                    description: movies.description,
+                    link: movies.link,
+                    url: movies.url
+                  })
+                }
+                name="title"
+                id="title"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="subTitle">Sub_Title</Label>
+              <Input
+                type="text"
+                value={movies.subTitle}
+                onChange={e =>
+                  setMovies({
+                    title: movies.title,
+                    subTitle: e.target.value,
+                    description: movies.description,
+                    link: movies.link,
+                    url: movies.url
+                  })
+                }
+                name="subTitle"
+                id="subTitle"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="description">Description</Label>
+              <Input
+                type="text"
+                value={movies.description}
+                onChange={e =>
+                  setMovies({
+                    title: movies.title,
+                    subTitle: movies.subTitle,
+                    description: e.target.value,
+                    link: movies.link,
+                    url: movies.url
+                  })
+                }
+                name="description"
+                id="description"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="link">Link</Label>
+              <Input
+                type="text"
+                value={movies.link}
+                onChange={e =>
+                  setMovies({
+                    title: movies.title,
+                    subTitle: movies.subTitle,
+                    description: movies.description,
+                    link: e.target.value,
+                    url: movies.url
+                  })
+                }
+                name="link"
+                id="link"
+              />
+              <ImageUpload image={image} /> {/* Image upload component */}
+            </FormGroup>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Button>Create</Button>
+          </Form>
+        </PopoverBody>
+      </Popover>
+    </div>
+  );
+};
