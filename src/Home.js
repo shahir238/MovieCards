@@ -2,6 +2,7 @@ import React from "react";
 import { db } from "./fire";
 import { useState } from "react";
 import "./App.css";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -13,28 +14,32 @@ import {
   Button,
   Popover,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
+  Col,
+  Badge
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFilm
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilm, faTimesCircle,faStar,faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 
 import Apps from "./Apps";
 import firebase from "./fire";
 import UserCard from "./UserCard";
 import ImageUpload from "./ImageUpload";
-import Object from './Object'
+import Object from "./Object";
 
-const Home = () => {
-  ;
+const Home = props => {
+  const [poster, setPoster] = useState([]);
+  console.log("poster", poster);
+  const copy = movieCope => {
+     setPoster(movieCope);
+  };
 
   const logOut = () => {
     firebase.auth().signOut();
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ minHeight: "100%" }}>
       <Card className="header">
         <CardHeader
           style={{
@@ -60,7 +65,7 @@ const Home = () => {
               <h3 style={{ paddingTop: "20px" }}>My-Movies</h3>
             </div>
           </nav>{" "}
-          <InputForm />
+          <InputForm copy={copy} />
           <div className="headBtn">
             <Button
               onClick={logOut}
@@ -78,11 +83,10 @@ const Home = () => {
         </CardHeader>
       </Card>
       <div className="div">
-      <Row>
-        {Object.map(obj=>
-          
-            
-            <Apps key={obj.id}
+        <Row>
+          {Object.map(obj => (
+            <Apps
+              key={obj.id}
               title={obj.title}
               muted={obj.muted}
               p={obj.p}
@@ -91,14 +95,68 @@ const Home = () => {
               pills={obj.pills}
               link={obj.link}
             />
-           
+          ))}
 
-          )}
-           
-          <UserCard />
-          </Row>
-       
+{poster &&
+          poster.map(e => (
+            <Col key={e.title}
+              sm="12"
+              md="4"
+              lg="3"
+              className="mainCard"
+              style={{ marginLeft: "100px" }}
+            >
+              <div className="movie-card">
+                <div className="image">
+                  <img src={e.url} alt={"movie poster"} className="img" />
+                  <Card className="inner ">
+                    <h4 style={{ paddingLeft: "10px" }}>
+                      <Link to={e.link}>{e.title}</Link>
+                    </h4>
+                    <h6 className="text-muted">{e.subTitle}</h6>
+                    <p className="p">{e.description}</p>
+                  </Card>
+                </div>
+                <Card className="card">
+                  <div className="star">
+                    <FontAwesomeIcon
+                      className="fa-lg"
+                      style={{ paddingRight: "1px" }}
+                      icon={faStar}
+                    ></FontAwesomeIcon>
+                    <FontAwesomeIcon
+                      className="fa-lg"
+                      style={{ paddingRight: "1px" }}
+                      icon={faStar}
+                    ></FontAwesomeIcon>
+                    <FontAwesomeIcon
+                      className="fa-lg"
+                      style={{ paddingRight: "1px" }}
+                      icon={faStar}
+                    ></FontAwesomeIcon>
+                    <FontAwesomeIcon
+                      className="fa-lg"
+                      style={{ paddingRight: "1px" }}
+                      icon={faStar}
+                    ></FontAwesomeIcon>
+                    <FontAwesomeIcon
+                      className="fa-lg"
+                      style={{ paddingRight: "1px" }}
+                      icon={faStarHalfAlt}
+                    ></FontAwesomeIcon>
+                    <span className="badge">
+                      <Badge color="primary" style={{ fontSize: "17px" }} pill>
+                        4.3
+                      </Badge>
+                    </span>
+                  </div>
+                </Card>
+              </div>
+            </Col>
+          ))}
 
+          <UserCard obj={poster} />
+        </Row>
       </div>
     </div>
   );
@@ -118,6 +176,8 @@ const InputForm = props => {
     link: "",
     url: ""
   });
+  const [movieCopy, setMovieCopy] = useState([]);
+  console.log("movies copy", movieCopy);
   const image = url => {
     setMovies({
       title: movies.title,
@@ -139,6 +199,11 @@ const InputForm = props => {
       url: ""
     });
     console.log("movies", movies);
+    const movieCope = [...movieCopy];
+    movieCope.push(movies);
+
+    setMovieCopy(movieCope);
+    props.copy(movieCope);
   };
 
   return (
@@ -152,7 +217,14 @@ const InputForm = props => {
         target="Popover1"
         toggle={toggle}
       >
-        <PopoverHeader>New Movies</PopoverHeader>
+        <PopoverHeader>
+          New Movies{" "}
+          <FontAwesomeIcon
+            onClick={toggle}
+            style={{ color: "red", float: "right" }}
+            icon={faTimesCircle}
+          />
+        </PopoverHeader>
         <PopoverBody>
           <Form onSubmit={submit}>
             <FormGroup>
@@ -239,3 +311,4 @@ const InputForm = props => {
     </div>
   );
 };
+export const copy = InputForm.movieCopy;
